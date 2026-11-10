@@ -16,8 +16,14 @@ const RARE_CHANCE = 0.1;
 
 let lastMeow = -1;
 
-/** Rastgele bir miyavlama sesi çal (aynısı art arda gelmesin). %10 ihtimalle nadir ses. */
-export function playMeow(volume = 0.6) {
+const BLOCKED_FALLBACK_MS = 1500; // ses çalınamazsa ağız bu kadar açık kalır
+const MAX_MEOW_MS = 8000; // 'ended' hiç gelmezse güvenlik sınırı
+
+/**
+ * Rastgele bir miyavlama sesi çal (aynısı art arda gelmesin). %10 ihtimalle nadir ses.
+ * onDone, ses bittiğinde bir kez çağrılır: ağız animasyonu sesin süresi kadar sürer.
+ */
+export function playMeow(onDone?: () => void, volume = 0.6) {
   let src: string;
   if (Math.random() < RARE_CHANCE) {
     src = RARE_MEOW_SOUND;
@@ -29,7 +35,19 @@ export function playMeow(volume = 0.6) {
   }
   const a = new Audio(src);
   a.volume = volume;
-  a.play().catch(() => {});
+
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    window.clearTimeout(guard);
+    onDone?.();
+  };
+  const guard = window.setTimeout(finish, MAX_MEOW_MS);
+  a.addEventListener("ended", finish);
+  a.addEventListener("error", finish);
+  // Tarayıcı sesi engellerse (etkileşim yok) kısa bir varsayılan süre kullan
+  a.play().catch(() => window.setTimeout(finish, BLOCKED_FALLBACK_MS));
 }
 
 /** Mırıltı: döngüde çalar, durdurmak için dönen nesneyi pause et. */

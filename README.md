@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# reiimiru
 
-## Getting Started
+Kick yayıncısı reiimiru'nun kişisel sitesi: [kick.com/reiimiru](https://kick.com/reiimiru) · [instagram.com/reiimiru](https://www.instagram.com/reiimiru/)
 
-First, run the development server:
+## Neler var
+
+- Pembe "liquid glass" tema, açık ve koyu mod (sağ üstteki düğme, tercih tarayıcıda saklanır).
+- Hero arka planında three.js sahnesi: yüzen kalpler ve şekerler. Fareyi takip eder, tıklayınca zıplarlar.
+- Kaydırdıkça çalışan animasyonlar (framer-motion): kelime kelime başlıklar, solan hero, parallax.
+- Sayfada gezinen kedi: yürür, oturur, uyur, miyavlar, yün yumağıyla oynar. Tıklayınca miyavlar.
+- Hareket azaltma tercihi açıksa animasyonlar kapanır ve kedi gizlenir.
+
+## Çalıştırma
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Site `http://localhost:3000` adresinde açılır. Yayına hazır sürüm için `npm run build`, ardından `npm run start`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Yapı
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Yol | İçerik |
+| --- | --- |
+| `app/page.tsx` | Ana sayfa: hero, hakkımda, projeler, bağlantılar |
+| `app/globals.css` | Tema renkleri ve tüm stiller |
+| `app/3d/page.tsx` | 3D sahnenin tek başına demo sayfası |
+| `components/ThreeScene.tsx` | three.js sahnesi |
+| `components/CatPet.tsx` | Gezinen kedi ve davranışları |
+| `components/fx/motion.tsx` | Scroll animasyonu bileşenleri |
+| `lib/sounds.ts` | Kedi sesleri (miyav havuzu, %10 nadir ses, mırıltı) |
+| `public/cat/` | Kedi kareleri ve 12 karelik yürüyüş sprite sheet'i |
+| `public/sounds/` | Ses dosyaları |
 
-## Learn More
+## İçerik güncelleme
 
-To learn more about Next.js, take a look at the following resources:
+- **Hakkımda metni ve bağlantılar:** `app/page.tsx`.
+- **Projeler:** bölüm şu an boş; `app/page.tsx` içindeki "Henüz proje yok." kutusunun yerine eklenir.
+- **Renkler:** `app/globals.css` başındaki `:root` (açık) ve `:root[data-theme="dark"]` (koyu) blokları.
+- **Yeni miyav sesi:** dosyayı `public/sounds/` altına koy, yolunu `lib/sounds.ts` içindeki `MEOW_SOUNDS` listesine ekle.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notlar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Kedi görselleri yapay zekâ ile üretildi.
+- Ses dosyaları üçüncü taraf kaynaklardan; yayına almadan önce lisanslarını kontrol et.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { playMeow, startPurr } from "@/lib/sounds";
 
 // Sayfada gezinen kedi: yürür, oturur, uyur, miyavlar, kendini yalar, iple oynar.
@@ -29,8 +29,10 @@ export default function CatPet() {
   const [bubble, setBubble] = useState<string | null>(null);
   const [walkFrame, setWalkFrame] = useState(0);
   const [moving, setMoving] = useState(false);
-  // Görünen durum: hareket varsa her zaman yürüyüş
-  const shown: Mode = moving ? "walk" : mode;
+  const [meowing, setMeowing] = useState(false);
+  // Görünen durum: yürüyorsa yürüyüş; değilse ses çalarken miyav; yoksa zamanlayıcının modu.
+  // Miyav ayrı tutulur ki zamanlayıcı ağzı ses bitmeden kapatmasın.
+  const shown: Mode = moving ? "walk" : meowing ? "meow" : mode;
 
   // Yürüyüş: 12 kare, sprite sheet üzerinde sırayla (4 sütun x 3 satır)
   useEffect(() => {
@@ -38,6 +40,22 @@ export default function CatPet() {
     const id = window.setInterval(() => setWalkFrame((f) => (f + 1) % 12), 70);
     return () => window.clearInterval(id);
   }, [moving]);
+
+  // Miyavlama: ağız, çalan ses bitene kadar açık kalır.
+  // Üst üste gelen miyavlarda yalnız sonuncusu ağzı kapatır.
+  const meowToken = useRef(0);
+  const startMeow = useCallback((onEnd?: () => void) => {
+    const token = ++meowToken.current;
+    setBubble("Miyav~");
+    setMeowing(true);
+    playMeow(() => {
+      if (token === meowToken.current) {
+        setBubble(null);
+        setMeowing(false);
+      }
+      onEnd?.();
+    });
+  }, []);
 
   // Uyurken mırıltı
   useEffect(() => {
@@ -57,13 +75,6 @@ export default function CatPet() {
 
     const maxX = () => Math.max(16, window.innerWidth - CAT_W - 16);
     let walkDone: (() => void) | null = null;
-
-    const meow = (text: string) => {
-      setMode("meow");
-      setBubble(text);
-      playMeow();
-      later(1700, () => setBubble(null));
-    };
 
     // Kedi davranışı: rastgele bir eylem seç, bitince sonrakini planla
     const next = () => {
@@ -87,8 +98,9 @@ export default function CatPet() {
           later(rand(800, 1500), next);
         });
       } else if (r < 0.76) {
-        meow("Miyav~");
-        later(rand(2000, 3000), next);
+        // Ses bitince kısa bir duraklama, sonra sıradaki davranış
+        setMode("sit");
+        startMeow(() => later(rand(600, 1400), next));
       } else if (r < 0.88) {
         // İp ile oyun: kedi sağa döner, top yuvarlanır, kedi üstüne atlar
         setFacing(-1);
@@ -145,19 +157,10 @@ export default function CatPet() {
       timers.forEach((id) => window.clearTimeout(id));
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [startMeow]);
 
-  // Tıklama: yürürken sadece miyavlar, değilse miyavlar ve oturur
-  const onClick = () => {
-    setBubble("Miyav~");
-    playMeow();
-    window.setTimeout(() => setBubble(null), 1500);
-    if (movingRef.current) return;
-    setMode("meow");
-    window.setTimeout(() => {
-      if (!movingRef.current) setMode("sit");
-    }, 1500);
-  };
+  // Tıklama: miyavlar. Yürürken yürümeye devam eder, yalnız ses ve balon gelir.
+  const onClick = () => startMeow();
 
   return (
     <div ref={elRef} className="cat-pet" style={{ transform: "translate3d(0,0,0)" }}>

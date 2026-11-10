@@ -84,16 +84,19 @@ export function SplitText({
   return (
     <Tag className={className} aria-label={text}>
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} aria-hidden="true" className="inline-block overflow-hidden align-bottom pb-[0.12em] -mb-[0.12em] mr-[0.25em]">
-          <motion.span
-            className="inline-block will-change-transform"
-            initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-            transition={{ duration: 0.9, delay: i * stagger, ease: EASE_OUT }}
-          >
-            {word}
-          </motion.span>
+        <span key={`${word}-${i}`} aria-hidden="true">
+          <span className="split-word">
+            <motion.span
+              className="split-inner"
+              initial={{ y: "100%" }}
+              whileInView={{ y: "0%" }}
+              viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+              transition={{ duration: 0.9, delay: i * stagger, ease: EASE_OUT }}
+            >
+              {word}
+            </motion.span>
+          </span>
+          {i < words.length - 1 ? " " : null}
         </span>
       ))}
     </Tag>
