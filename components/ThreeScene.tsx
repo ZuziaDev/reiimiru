@@ -4,11 +4,12 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
-// Tatlı 3D sahne: cam gibi kalpler ve şekerler, ortam yansımaları, parıltılar.
+// Tatlı 3D sahne: mor tonlarında cam gibi kalpler ve şekerler, ortam yansımaları, parıltılar.
 // Fare kamerayı kaydırır, tıklayınca her şey zıplar ve yerine yumuşakça döner.
 // Unmount olunca tüm kaynaklar serbest bırakılır.
 
-const PALETTE = [0xff5fa2, 0x7ee0c3, 0xffd166, 0xb388ff, 0xff8ad8];
+// Mor tonları: koyu mordan lavantaya
+const PALETTE = [0x7c3aed, 0xa78bfa, 0xc4b5fd, 0x9333ea, 0xe0d4ff];
 const COUNT = 34;
 
 // Kalp şekli (2D) -> ExtrudeGeometry ile 3D
@@ -73,7 +74,7 @@ export default function ThreeScene({
 
     const key = new THREE.DirectionalLight(0xffffff, 1.2);
     key.position.set(5, 8, 10);
-    const rim = new THREE.DirectionalLight(0xff8ad8, 1.6);
+    const rim = new THREE.DirectionalLight(0xb794ff, 1.6);
     rim.position.set(-8, -4, -6);
     scene.add(key, rim, new THREE.AmbientLight(0xffffff, 0.35));
 

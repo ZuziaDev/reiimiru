@@ -1,27 +1,25 @@
-/* reiimiru · pembe liquid glass
- * Pembe gökkuşağı zemin üstünde camsı yüzeyler. Başlıklar Unbounded, metin Onest.
+/* reiimiru · mor liquid glass
+ * Mor tonlarında zemin üstünde camsı yüzeyler. Başlıklar Unbounded, metin Onest.
  */
 
-/* ---------- Tokens: açık pembe (varsayılan) ---------- */
+/* ---------- Tokens: açık mor (varsayılan) ---------- */
 :root,
 :root[data-theme="light"] {
-  --bg: #fdeef5;
-  --bg-2: #ffd9ea;
-  --ink: #3a1630;
-  --ink-soft: #7a4a68;
+  --bg: #f4eefc;
+  --bg-2: #e2d4f8;
+  --ink: #24143d;
+  --ink-soft: #5f4b80;
   --glass: rgba(255, 255, 255, 0.42);
   --glass-strong: rgba(255, 255, 255, 0.62);
   --glass-line: rgba(255, 255, 255, 0.75);
-  --glass-shadow: 0 10px 40px -12px rgba(190, 40, 110, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  --accent: #e8407f;
+  --glass-shadow: 0 10px 40px -12px rgba(90, 40, 170, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --accent: #7c3aed;
   --accent-on: #ffffff;
-  --heat: #ff9cc2;
-  --cat-fur: #fffafc;
-  --cat-line: #5a2a46;
-  --cat-ear: #ffb3d1;
-  --cat-blush: #ff7fb0;
-  --cat-nose: #ff5a95;
-  --cat-stripe: #ffc2dc;
+  --heat: #c4a8ff;
+  --wash-1: #d9c4ff;
+  --wash-2: #ebe0ff;
+  --wash-3: #c9aef7;
+  --cat-shadow: rgba(60, 25, 120, 0.25);
   --radius: 14px;
   --radius-lg: 24px;
   --nav-h: 4.5rem;
@@ -31,25 +29,23 @@
   color-scheme: light;
 }
 
-/* ---------- Tokens: koyu (gece pembesi) ---------- */
+/* ---------- Tokens: koyu (gece moru) ---------- */
 :root[data-theme="dark"] {
-  --bg: #1d0a18;
-  --bg-2: #3a0f2e;
-  --ink: #ffe9f3;
-  --ink-soft: #d9a8c4;
+  --bg: #130a24;
+  --bg-2: #24113f;
+  --ink: #f1e9ff;
+  --ink-soft: #b9a6dc;
   --glass: rgba(255, 255, 255, 0.07);
   --glass-strong: rgba(255, 255, 255, 0.13);
   --glass-line: rgba(255, 255, 255, 0.22);
   --glass-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  --accent: #ff6fa8;
-  --accent-on: #2a0a1e;
-  --heat: #ffb3d1;
-  --cat-fur: #fff4f9;
-  --cat-line: #2a0f22;
-  --cat-ear: #ff9ec6;
-  --cat-blush: #ff7fb0;
-  --cat-nose: #ff5a95;
-  --cat-stripe: #ffc2dc;
+  --accent: #b794ff;
+  --accent-on: #1c0f33;
+  --heat: #d8c4ff;
+  --wash-1: #3d1c70;
+  --wash-2: #2a1352;
+  --wash-3: #351a60;
+  --cat-shadow: rgba(0, 0, 0, 0.45);
   color-scheme: dark;
 }
 
@@ -68,20 +64,11 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   overflow-x: clip;
-  /* Liquid glass'ın arkasında renk olsun diye yumuşak pembe gökkuşağı */
+  /* Liquid glass'ın arkasında renk olsun diye yumuşak mor geçişler */
   background:
-    radial-gradient(60% 50% at 10% 0%, #ffc2de 0%, transparent 70%),
-    radial-gradient(50% 45% at 95% 15%, #ffd8ec 0%, transparent 70%),
-    radial-gradient(60% 60% at 60% 100%, #ffb0cf 0%, transparent 70%),
-    linear-gradient(180deg, var(--bg), var(--bg-2));
-  background-attachment: fixed;
-  transition: color 0.28s ease;
-}
-:root[data-theme="dark"] body {
-  background:
-    radial-gradient(60% 50% at 10% 0%, #5a1642 0%, transparent 70%),
-    radial-gradient(50% 45% at 95% 15%, #3a1030 0%, transparent 70%),
-    radial-gradient(60% 60% at 60% 100%, #4a1a3c 0%, transparent 70%),
+    radial-gradient(60% 50% at 10% 0%, var(--wash-1) 0%, transparent 70%),
+    radial-gradient(50% 45% at 95% 15%, var(--wash-2) 0%, transparent 70%),
+    radial-gradient(60% 60% at 60% 100%, var(--wash-3) 0%, transparent 70%),
     linear-gradient(180deg, var(--bg), var(--bg-2));
   background-attachment: fixed;
 }
@@ -249,12 +236,12 @@ main { padding-top: 0; }
   display: block; width: 110px; height: 110px;
   background-image: url(/cat/walk-sheet.webp);
   background-repeat: no-repeat; background-size: 400% 300%;
-  filter: drop-shadow(0 6px 6px rgba(120, 30, 80, 0.25));
+  filter: drop-shadow(0 6px 6px var(--cat-shadow));
   user-select: none;
 }
 .cat-frame {
   display: block; height: 110px; width: auto;
-  filter: drop-shadow(0 6px 6px rgba(120, 30, 80, 0.25));
+  filter: drop-shadow(0 6px 6px var(--cat-shadow));
   user-select: none; -webkit-user-drag: none;
 }
 .cat-btn:hover { transform: scale(1.04); }

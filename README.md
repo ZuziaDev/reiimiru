@@ -4,7 +4,7 @@ Kick yayıncısı reiimiru'nun kişisel sitesi: [kick.com/reiimiru](https://kick
 
 ## Neler var
 
-- Pembe "liquid glass" tema, açık ve koyu mod (sağ üstteki düğme, tercih tarayıcıda saklanır).
+- Mor tonlarında "liquid glass" tema, açık ve koyu mod (sağ üstteki düğme, tercih tarayıcıda saklanır).
 - Hero arka planında three.js sahnesi: yüzen kalpler ve şekerler. Fareyi takip eder, tıklayınca zıplarlar.
 - Kaydırdıkça çalışan animasyonlar (framer-motion): kelime kelime başlıklar, solan hero, parallax.
 - Sayfada gezinen kedi: yürür, oturur, uyur, miyavlar, yün yumağıyla oynar. Tıklayınca miyavlar.
